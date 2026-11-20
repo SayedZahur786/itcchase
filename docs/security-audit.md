@@ -22,3 +22,6 @@ Anonymous session access is not a verified firm account. This is a free pilot, n
 
 ## Completed scanner evidence
 Gitleaks found no leaks in staged application source, staged verification scripts, the three-commit history or .next/static client chunks. npm audit returned zero vulnerabilities. Cold-load performance passed all three runs: 608 / 924 / 792 ms. No scanner proves the absence of every issue.
+
+## Session hardening
+Server-side session records enforce expiry independently of cookie expiry. Deletion removes the server session as well as reports. The security script tests replay of revoked and expired tokens, both denied with 401. Database requests have a ten-second timeout and mutation paths fail closed if ownership verification fails.

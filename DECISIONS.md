@@ -17,3 +17,4 @@
 - Standard Turbopack initially failed on sandboxed local-port creation. A clean generated build directory and approved build execution resolved it; final gates use ordinary next build, with no gate modifications or webpack override.
 - The narrated Playwright video follows the user’s explicitly selected recording option. The HyperFrames entry skill was consulted; its browser-recording exception applies, so no separate motion composition was introduced.
 - Prelaunch synthetic test events created before 2026-11-20 23:16 UTC were cleared before the public deployment became available. The baseline for real usage starts at zero; later exact sample uploads do not insert events.
+- Final security review added durable session records: cookie expiry alone is not sufficient against replay. Server-side expiry and revocation now guard every protected operation. This prelaunch change invalidates cookies issued by the earlier synthetic-only build.

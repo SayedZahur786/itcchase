@@ -5,13 +5,20 @@ import { createHash } from "node:crypto";
 import type { Report } from "./match";
 export function db() {
   if (!process.env.DATABASE_URL) throw new Error("STORAGE_UNAVAILABLE");
-  return neon(process.env.DATABASE_URL);
+  return neon(process.env.DATABASE_URL, {
+    fetchOptions: { signal: AbortSignal.timeout(10000) },
+  });
 }
 export const hash = (value: string) =>
   createHash("sha256").update(value).digest("hex");
 export async function owner() {
   const token = (await cookies()).get("itc_session")?.value;
-  return token && /^[a-f0-9]{64}$/.test(token) ? hash(token) : null;
+  if (!token || !/^[a-f0-9]{64}$/.test(token) || !process.env.DATABASE_URL)
+    return null;
+  const id = hash(token);
+  const rows =
+    await db()`SELECT owner_hash FROM sessions WHERE owner_hash=${id} AND expires_at>now()`;
+  return rows.length ? id : null;
 }
 export async function rateLimit(key: string, limit: number) {
   const sql = db();

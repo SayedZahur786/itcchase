@@ -5,6 +5,7 @@ const base = "http://localhost:3107";
 const sql = neon(process.env.DATABASE_URL!);
 const token = randomBytes(32).toString("hex");
 const id = createHash("sha256").update(token).digest("hex");
+await sql`INSERT INTO sessions(owner_hash) VALUES (${id})`;
 const headers = { origin: base, cookie: `itc_session=${token}` };
 await sql`INSERT INTO rate_limits(key,count) VALUES (${`upload:${id}`},10)`;
 let response = await fetch(base + "/api/reconcile", {
@@ -46,6 +47,21 @@ try {
 }
 assert.equal(denied, true);
 await sql`DELETE FROM rate_limits WHERE key=${`upload:${id}`}`;
+await sql`DELETE FROM sessions WHERE owner_hash=${id}`;
+response = await fetch(base + "/api/reconcile", {
+  method: "POST",
+  headers,
+  body: "bounded body",
+});
+assert.equal(response.status, 401);
+await sql`INSERT INTO sessions(owner_hash,expires_at) VALUES (${id},now()-interval '1 second')`;
+response = await fetch(base + "/api/reconcile", {
+  method: "POST",
+  headers,
+  body: "bounded body",
+});
+assert.equal(response.status, 401);
+await sql`DELETE FROM sessions WHERE owner_hash=${id}`;
 console.log(
-  "PASS: durable limit, spoofed-header resistance, malformed files, invalid support and runtime DDL denial.",
+  "PASS: durable limit, spoofed-header resistance, malformed files, invalid support and runtime DDL denial, revoked and expired cookie denial.",
 );

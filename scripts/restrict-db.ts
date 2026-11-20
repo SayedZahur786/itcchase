@@ -16,11 +16,14 @@ else
 await sql.query("GRANT CONNECT ON DATABASE neondb TO itcchase_runtime");
 await sql.query("GRANT USAGE ON SCHEMA public TO itcchase_runtime");
 await sql.query(
-  "GRANT SELECT, INSERT, UPDATE, DELETE ON reports, rate_limits, events TO itcchase_runtime",
+  "GRANT SELECT, INSERT, UPDATE, DELETE ON reports, rate_limits, events, sessions TO itcchase_runtime",
 );
 await sql.query("GRANT INSERT, DELETE ON support_requests TO itcchase_runtime");
 await sql.query(
   "GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA public TO itcchase_runtime",
+);
+await sql.query(
+  "GRANT SELECT (created_at) ON support_requests TO itcchase_runtime",
 );
 const url = new URL(process.env.DATABASE_URL!);
 url.username = "itcchase_runtime";

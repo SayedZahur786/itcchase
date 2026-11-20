@@ -9,4 +9,14 @@ for (const file of readdirSync("migrations")
     .split(";")
     .filter((s) => s.trim()))
     await sql.query(statement);
+const roles =
+  await sql`SELECT rolname FROM pg_roles WHERE rolname='itcchase_runtime'`;
+if (roles.length)
+  await sql.query(
+    "GRANT SELECT, INSERT, DELETE ON sessions TO itcchase_runtime",
+  );
+if (roles.length)
+  await sql.query(
+    "GRANT SELECT (created_at) ON support_requests TO itcchase_runtime",
+  );
 console.log("Migration applied.");

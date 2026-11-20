@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { randomBytes } from "node:crypto";
-import { hash, owner, rateLimit, sameOrigin } from "@/lib/db";
+import { db, hash, owner, rateLimit, sameOrigin } from "@/lib/db";
 export async function POST(request: Request) {
   if (!sameOrigin(request))
     return NextResponse.json({ error: "Origin rejected." }, { status: 403 });
@@ -24,14 +24,21 @@ export async function POST(request: Request) {
         { status: 429 },
       );
     const response = NextResponse.json({ ready: true });
-    if (!(await owner()))
-      response.cookies.set("itc_session", randomBytes(32).toString("hex"), {
+    if (!(await owner())) {
+      const token = randomBytes(32).toString("hex");
+      const sql = db();
+      await sql.transaction([
+        sql`DELETE FROM sessions WHERE expires_at<now()`,
+        sql`INSERT INTO sessions(owner_hash) VALUES (${hash(token)})`,
+      ]);
+      response.cookies.set("itc_session", token, {
         httpOnly: true,
         secure: process.env.NODE_ENV === "production",
         sameSite: "strict",
         path: "/",
         maxAge: 60 * 60 * 24 * 30,
       });
+    }
     return response;
   } catch {
     return NextResponse.json(

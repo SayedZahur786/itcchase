@@ -15,7 +15,15 @@ export async function POST(request: Request) {
       },
       { status: 503 },
     );
-  const id = await owner();
+  let id;
+  try {
+    id = await owner();
+  } catch {
+    return NextResponse.json(
+      { error: "Session verification is unavailable. Retry later." },
+      { status: 503 },
+    );
+  }
   if (!id)
     return NextResponse.json(
       { error: "Start a new upload session." },
