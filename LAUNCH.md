@@ -1,15 +1,15 @@
 # ITCChase launch
 
-Status: free pilot preview. Source repository is private. Paid subscriptions are not available. No customer results or traction are claimed.
+Status: deployed free pilot at https://itcchase.vercel.app. Source repository https://github.com/SayedZahur786/itcchase is private. Paid subscriptions are not available. No customer results or traction are claimed.
 
 ## Gate results — 21 November 2026
 - PASS placeholder-scan: authored application, tests and docs contain no listed filler patterns.
-- PASS header-check locally: nonce CSP and required headers on /, /privacy and /terms. Production HTTPS verification follows deployment.
-- PASS policy-check locally: distinct substantive privacy and terms rendered successfully. This is not legal certification.
+- PASS header-check on production HTTPS: nonce CSP, HSTS and required headers on /, /privacy and /terms.
+- PASS policy-check on production: distinct substantive privacy and terms rendered successfully. This is not legal certification.
 - PASS perf-check: cold mobile LCP 608 / 924 / 792 ms; worst 924 ms, below 2,500 ms, with 4× CPU slowdown and 1.6 Mbps / 150 ms network. Local lab result, not production field performance.
-- PASS: 8 unit/parser tests, 3 browser tests including actual two-file upload, four missing invoices, clipboard, cross-session denial, deletion and all main mobile routes.
+- PASS: 8 unit/parser tests and 3 browser tests locally and on production, including actual two-file upload, four missing invoices, clipboard, cross-session denial, deletion and all main mobile routes.
 - PASS: strict TypeScript, ESLint, production build, npm audit (zero vulnerabilities), durable-rate/invalid-input/runtime-permission checks.
-- PASS: Gitleaks staged source, three-commit history and production client chunks. Final documentation checked again before push.
+- PASS: Gitleaks staged source, complete Git history and production client chunks. Final documentation checked again before push.
 - PASS: desktop and mobile screenshot capture; 54-second H.264/AAC MP4 with local narration and burned-in captions.
 
 ## Human needed
@@ -59,3 +59,8 @@ URL: https://itcchase.vercel.app
 ITCChase connects two familiar steps: invoice reconciliation and asking suppliers about the differences. It uses conservative matching, integer-paise totals, bounded server-side Excel parsing and browser-session isolation in a dedicated Neon project.
 
 It’s a free early pilot with a synthetic demo, not a proven tax-savings product. I’m looking for ten firms to test one month’s workflow. Normalized tables are required; filing, GSTN integration and credit-note treatment are outside this version.
+
+## Final deployment evidence
+Production deployment dpl_ELY4QL4vaFPs5k94uvgU2E2PLZ6g completed with source commit be694e5. Canonical URL: https://itcchase.vercel.app. Hosted verification passed after this deployment: 3 browser tests; durable rate-limit and spoofed-header checks; invalid-file denial; runtime DDL denial; revoked/expired cookie denial; private support insert/readback with synthetic record cleanup; header-check including HSTS; policy-check. Sitemap, robots and OG image returned 200; unknown routes returned 404.
+
+Local production verification address was http://localhost:3107; the test server has been stopped. Use npm run dev in the project directory for http://localhost:3000. The repository is pushed with the narrated demo, screenshots and operating guide. Local SVG animation was verified to advance in Chromium; README uses a committed SVG image with a SMIL accent.

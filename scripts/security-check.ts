@@ -1,7 +1,7 @@
 import { neon } from "@neondatabase/serverless";
 import { createHash, randomBytes } from "node:crypto";
 import assert from "node:assert/strict";
-const base = "http://localhost:3107";
+const base = process.env.TEST_URL || "http://localhost:3107";
 const sql = neon(process.env.DATABASE_URL!);
 const token = randomBytes(32).toString("hex");
 const id = createHash("sha256").update(token).digest("hex");
