@@ -6,3 +6,14 @@
 - Payment provider and merchant details were not supplied. ₹499/month is intended pricing, not an active checkout. No money is collected and no paid traction is claimed.
 - Demo video will be a real Playwright walkthrough with local text-to-speech narration and readable captions: the invoice-to-follow-up flow matters more than a motion promo. No external voice service needed.
 - GitHub authentication initially reports an invalid token. Retry once network access is established before declaring a blocker.
+- Neon project: summer-flower-77281321; organization: org-sweet-wildflower-67376060; production branch: br-curly-frost-bi6pu28c; region: aws-ap-southeast-1. The CLI exposes no create-organization API, so a fresh dedicated project uses the authenticated organization. A separate organization remains an owner-console action if desired.
+- The requested initial neon init installed user-level agent integrations and minted an account-wide MCP key as a side effect. The key (ID 3561157) was immediately revoked; subsequent initialization used --no-agent-setup. No service uses that key.
+- Consulted installed neon and neon-postgres skills. Preserve the existing HTTP serverless driver for one-shot parameterized queries and atomic HTTP transactions; use pooled runtime credentials and direct admin credentials for migrations. Runtime role has only application DML grants, not schema ownership.
+- GitHub public creation was rejected by automatic approval review because visibility was not explicit. Repository created private. Public launch of the source requires owner approval; no workaround attempted.
+- Support uses a private database-backed contact form because private GitHub issues would be inaccessible to pilot users. It is an operational contact path, not a new product feature. Operator must review requests manually.
+- Source license defaults to all rights reserved; no open-source grant is inferred on the operator’s behalf.
+- Downloaded Neon skill references were consulted and removed from the app source after use. They are external development guidance, not shipped product files.
+- Sample uploads are identified by exact normalized fixture content and excluded from live reconciliation events. Test and demo traffic must never be reported as customer traction.
+- Standard Turbopack initially failed on sandboxed local-port creation. A clean generated build directory and approved build execution resolved it; final gates use ordinary next build, with no gate modifications or webpack override.
+- The narrated Playwright video follows the user’s explicitly selected recording option. The HyperFrames entry skill was consulted; its browser-recording exception applies, so no separate motion composition was introduced.
+- Prelaunch synthetic test events created before 2026-11-20 23:16 UTC were cleared before the public deployment became available. The baseline for real usage starts at zero; later exact sample uploads do not insert events.
